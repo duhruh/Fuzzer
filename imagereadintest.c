@@ -27,7 +27,7 @@ int main(){
 	//then prints them out
 	char* buf_str = (char*)malloc(2*len+1);
 	char* buf_ptr = buf_str; 
-	int i = 0;
+	int i, k = 0;
 	
 	for(i = 0; i < len; i++){
 		buf_ptr += sprintf(buf_ptr,"%02X",image[i]);		
@@ -38,12 +38,13 @@ int main(){
 	printf("%s\n", buf_str);
 	
 	//Loop the number of generations
-
-	//Mutate the file
-
-	//Execute the mutation   
-
-	//Record the mutation
+	for(k = 0; k < 1000; k++){
+		//Mutate the file
+		
+		//Execute the mutation
+		
+		//Record the mutation
+	}
 
 	return 0;
 }
