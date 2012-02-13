@@ -35,14 +35,16 @@ int main(){
 	
 	sprintf(buf_ptr,"\n");
 	*(buf_ptr + 1) = '\0';
-	printf("%s\n", buf_str);
+	//printf("%s\n", buf_str);
 	
 	//Loop the number of generations
 	for(k = 0; k < 1000; k++){
 		//Mutate the file
-		
+		//Write the file
 		//Execute the mutation
-		
+		long bug = system("./jpegconv -ppm image.jpg");
+		printf("%ld\n",bug);
+		system("pause");
 		//Record the mutation
 	}
 
