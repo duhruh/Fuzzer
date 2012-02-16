@@ -9,9 +9,12 @@
 
 int main(){
 
-    	FILE *ifp;
-    	long len=0;
+    	FILE *ifp
+    	FILE *ofp;
+    	long len=0,bug=0;
+    	
 	unsigned char* image;
+    
     	ifp=fopen("image.jpg","rb");
     	fseek(ifp,0,SEEK_END);
     	len = ftell(ifp);
@@ -38,11 +41,22 @@ int main(){
 	//printf("%s\n", buf_str);
 	
 	//Loop the number of generations
-	for(k = 0; k < 1000; k++){
+	for(i = 0; i < 1000; i++){
+		
 		//Mutate the file
+		for(k=0; k<len; k++){
+		    value=rand%255+1;
+		    image[k]=(value+image[k])%255;
+			
+		}
+		
 		//Write the file
+		ofp=fopen("imageout.jpg",wb);
+	
+		//loop to write data to the file
+		
 		//Execute the mutation
-		long bug = system("./jpegconv -ppm image.jpg");
+		    bug = system("./jpegconv -ppm image.jpg");
 		printf("%ld\n",bug);
 		system("pause");
 		//Record the mutation
