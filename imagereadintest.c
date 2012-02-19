@@ -40,6 +40,7 @@ int main(){
 	*(buf_ptr + 1) = '\0';
 	//printf("%s\n", buf_str);
 	
+
 	//Loop the number of generations
 	for(i = 0; i < 1000; i++){
 		
@@ -54,7 +55,11 @@ int main(){
 		ofp=fopen("imageout.jpg",wb);
 	
 		//loop to write data to the file
+		for(k=0; k<len; k++){
+		fprintf(ofp,"%c",image[k]);	
+		}
 		
+		}
 		//Execute the mutation
 		    bug = system("./jpegconv -ppm image.jpg");
 		printf("%ld\n",bug);
