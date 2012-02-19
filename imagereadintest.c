@@ -16,22 +16,25 @@ int main(){
 	FILE *seeds;
     	long len=0;
 	unsigned char* image;
+	unsigned char* bugedImage;
 	char* fileName = "bug.jpg";
 	char fileNum[10];
-	int fileCounter = 1;
+	int fileCounter = 10;
     	ifp=fopen("image.jpg","rb");
     	fseek(ifp,0,SEEK_END);
     	len = ftell(ifp);
 
 	//Reads in the file and prints out the size
-    	image =(unsigned char*) malloc(sizeof(char)*len);	
+    	image =(unsigned char*) malloc(sizeof(char)*len);
+	bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
     	fseek(ifp,0,SEEK_SET);
     	fread(image,1,len,ifp);
     	fclose(ifp);
     	printf("the size is %ld\n",len);
-	
+
+
 	//Converts the special characters to HEX characters
-	//then prints them out
+	//then prints them out //EDIT not sure what this does
 	char* buf_str = (char*)malloc(2*len+1);
 	char* buf_ptr = buf_str; 
 	int i, k = 0;
@@ -39,42 +42,55 @@ int main(){
 	for(i = 0; i < len; i++){
 		buf_ptr += sprintf(buf_ptr,"%02X",image[i]);		
 	}
-//printf("%s this is the buf_ptr........................\n",buf_ptr);	
+	
 	sprintf(buf_ptr,"\n");
 	*(buf_ptr + 1) = '\0';
-	//printf("%s\n", buf_str);
-	//system("PAUSE");	
-//printf("%02x this is image at the 2 position......................", image[1]);
+	/////////////////////////////////////////////////////
+	
+		
 	//Loop the number of generations
-	for(k = 0; k < 1000; k++){
+	for(k = 0; k < 10; k++){
+		
+		bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
+    		unsigned int q = 0;
+		for(q = 0; q < sizeof(image)/sizeof(char*);q++){
+			bugedImage[q] =  image[q];
+			printf("This is bugedImage: %02X  This image: %c\n",bugedImage[q],image[q]);
+		}	
+		
 		//Mutate the file
 		int seed = time(NULL);
 		srand(seed % 100);
-		image[rand()%len]+=rand() %len;
+		//image[rand()%len] = (image[rand()%len]+rand()) % 5;
+		bugedImage[rand()%len] = (image[rand()%len]+rand())%5;
+		//PRINT TO SEEDS IF X ROUNDS HAVE OCCURES
+		if(k == 5){
+			seeds = fopen("seeds.txt","+w");
+			fprintf(seeds,"%d",seed);
+			fclose(seeds);
+		}	
+
 		//Write the file
-		//image[3] += 10;
 		result = fopen(fileName,"w+");
 		for(i = 0; i < len; i++){
-			fprintf(result,"%c",image[i]);
+			fprintf(result,"%c",bugedImage[i]);
 		}
+		free(bugedImage);
 		fclose(result);
+		
 		//Execute the mutation
-		printf("hug-_-");
-		//char* systemCall = strcat("./jpegconv -ppm ", fileName);
-		//printf("%s",systemCall);
+		int returnVal = system("./jpegconv -ppm bug.jpg > out.txt");
 		//long bug = system("./jpegconv -ppm bug.jpg");
-		printf("got to the bug line");
-		//printf("%ld\n",bug);
-		//system("pause");
+		printf("%d\n",returnVal);
 		//Record the mutation
-		if(system("./jpegconv -ppm bug.jpg") < 9999999){
-			printf("Bug found!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		if(2 <1){
+			printf("Bug found!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			seeds = fopen("seeds.txt","w+");
-			fprintf(seeds,"%d",seed);
-			//itoa(fileCounter,fileNum,10);
+			fprintf(seeds,"%d\n",seed);
 			sprintf(fileNum,"%d",fileCounter);
 			//fileName = strcat(strcat("bug",fileNum),".jpg");
 			//fileName = strcat("bug",".jpg");
+			fclose(seeds);
 			fileCounter++;
 		}
 	}
