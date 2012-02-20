@@ -7,7 +7,7 @@
 #include <time.h>
 #include <string.h>
 
-
+void mutate(int seed,int len,unsigned char* image);
 
 int main(){
 
@@ -27,7 +27,7 @@ int main(){
 
 	//Reads in the file and prints out the size
     	image =(unsigned char*) malloc(sizeof(char)*len);
-	bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
+	//bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
     	fseek(ifp,0,SEEK_SET);
     	fread(image,1,len,ifp);
     	fclose(ifp);
@@ -52,20 +52,21 @@ int main(){
 	
 		
 	//Loop the number of generations
-	for(k = 0; k < 50; k++){
+	for(k = 0; k < 10; k++){
 		
 		bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
     		 int q = 0;
 		for(q = 0; q < len;q++){
 			bugedImage[q] =  image[q];
-			//printf("This is bugedImage: %02X  This image: %02X\n",bugedImage[q],image[q]);
+	//		printf("This is bugedImage: %02X  This image: %02X\n",bugedImage[q],image[q]);
 		}	
 		
 		//Mutate the file
 		int seed = abs(time(NULL)*rand());
 		srand(seed);
+		mutate(seed,len,bugedImage);
 		//image[rand()%len] = (image[rand()%len]+rand()) % 5;
-		bugedImage[rand()%len] = (image[rand()%len]+rand())%5;
+		//bugedImage[rand()%len] = (image[rand()%len]+rand())%5;
 		//PRINT TO SEEDS IF X ROUNDS HAVE OCCURES
 		/*if(k == 5){
 			seeds = fopen("seeds.txt","+w");
@@ -82,12 +83,12 @@ int main(){
 		//fclose(result);
 		
 		//Execute the mutation
-		int returnVal = system("./jpegconv -ppm image.jpg > out.txt");
+		int returnVal = system("./jpegconv -ppm bug.jpg > out.txt");
 		//fprintf(stderr, "%d",returnVal);
 		//long bug = system("./jpegconv -ppm bug.jpg");
-		printf("This is the returnVal: %d\n",returnVal);
 		//Record the mutation
-		if(returnVal < 100 && returnVal != 0){
+		//printf("This is the returnVal: %d\n",returnVal);
+		if(returnVal != 0){
 			printf("This is the bugged returnVal: %d\n",returnVal);
 			//seeds = fopen("seeds.txt","w+");
 			fprintf(seeds,"%d\n",seed);
@@ -104,7 +105,13 @@ int main(){
 }
 
 
-void mutate(int seed,int len, char[] temp){
-
-	
+void mutate(int seed,int len, unsigned char* image){
+	int u = 0;
+	seed++;
+	for(u=abs(seed%len-20); u < len-20; u++){
+		//image[u] = image[u] >> 1;
+		//printf("This is image: %02X\n", image[u]+1);
+		image[u] = image[u]+'F';
+		//image[(abs(seed%len-20))+u]=image[u]%5;
+	}
 }
