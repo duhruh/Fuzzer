@@ -52,7 +52,7 @@ int main(){
 	
 		
 	//Loop the number of generations
-	for(k = 0; k < 10; k++){
+	for(k = 0; k < 1000; k++){
 		
 		bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
     		 int q = 0;
@@ -89,7 +89,7 @@ int main(){
 		//Record the mutation
 		//printf("This is the returnVal: %d\n",returnVal);
 		if(returnVal != 0){
-			printf("This is the bugged returnVal: %d\n",returnVal);
+			//printf("This is the bugged returnVal: %d\n",returnVal);
 			//seeds = fopen("seeds.txt","w+");
 			fprintf(seeds,"%d\n",seed);
 			sprintf(fileNum,"%d\n",fileCounter);
@@ -111,7 +111,7 @@ void mutate(int seed,int len, unsigned char* image){
 	for(u=abs(seed%len-20); u < len-20; u++){
 		//image[u] = image[u] >> 1;
 		//printf("This is image: %02X\n", image[u]+1);
-		image[u] = image[u]+'F';
+		image[u] = (image[u]+seed) %256;
 		//image[(abs(seed%len-20))+u]=image[u]%5;
 	}
 }
