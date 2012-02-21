@@ -108,10 +108,14 @@ int main(){
 void mutate(int seed,int len, unsigned char* image){
 	int u = 0;
 	seed++;
-	for(u=abs(seed%len-20); u < len-20; u++){
+	seed--;
+	len++;
+	len--;
+	//image[10] = 100;
+	for(u=len/2; u < len/2+50; u++){
 		//image[u] = image[u] >> 1;
 		//printf("This is image: %02X\n", image[u]+1);
-		image[u] = (image[u]+seed) %256;
+		image[u] = (image[u]+(seed%256));
 		//image[(abs(seed%len-20))+u]=image[u]%5;
 	}
 }
