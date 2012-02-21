@@ -24,7 +24,7 @@ int main(){
     	ifp=fopen("image.jpg","rb");
     	fseek(ifp,0,SEEK_END);
     	len = ftell(ifp);
-
+	 int q = 0;
 	//Reads in the file and prints out the size
     	image =(unsigned char*) malloc(sizeof(char)*len);
 	//bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
@@ -53,9 +53,9 @@ int main(){
 		
 	//Loop the number of generations
 	for(k = 0; k < 1000; k++){
-		
+		rewind(result);
 		bugedImage =(unsigned char*) malloc(sizeof(char)*len);	
-    		 int q = 0;
+    	
 		for(q = 0; q < len;q++){
 			bugedImage[q] =  image[q];
 	//		printf("This is bugedImage: %02X  This image: %02X\n",bugedImage[q],image[q]);
