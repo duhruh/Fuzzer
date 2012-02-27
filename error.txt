@@ -1,0 +1,3 @@
+Corrupt JPEG data: 1064 extraneous bytes before marker 0x89
+BUG 5 TRIGGERED
+Segmentation fault
